@@ -34,7 +34,7 @@ class SimpleAfterInitialize
   end
 end
 
-# ========== hard examples ================
+# ========== examples mix default and not default values ================
 
 class MiddleDefault
   include AutoInitialize
