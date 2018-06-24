@@ -1,6 +1,6 @@
 # auto_initialize
 
-TODO: Write a description here
+Generate initialize methods for classes and structs
 
 ## Installation
 
@@ -9,29 +9,61 @@ Add this to your application's `shard.yml`:
 ```yaml
 dependencies:
   auto_initialize:
-    github: your-github-user/auto_initialize
+    github: kostya/auto_initialize
 ```
 
 ## Usage
 
 ```crystal
 require "auto_initialize"
+
+struct A
+  include AutoInitialize
+
+  property a : Int32
+  property b : String = "def"
+  property c : Int32 = 2
+  property d : String?
+  property e : Float64?
+end
+
+p A.new(a: 1, b: "what", c: 3, d: "bla", e: 1.0) # => A(@a=1, @b="what", @c=3, @d="bla", @e=1.0)
+p A.new(a: 1, c: 3, e: 1.0)                      # => A(@a=1, @b="def", @c=3, @d=nil, @e=1.0)
 ```
 
-TODO: Write usage instructions here
+## After initialize hook
 
-## Development
+```crystal
+require "auto_initialize"
 
-TODO: Write development instructions here
+class A
+  include AutoInitialize
+  property x : Int32
+  property y : Int32?
 
-## Contributing
+  def after_initialize
+    @y = @x + 1
+  end
+end
 
-1. Fork it (<https://github.com/your-github-user/auto_initialize/fork>)
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+p A.new(x: 1) # => #<A:0x10befc0 @x=1, @y=2>
+```
 
-## Contributors
+## Auto expanding classes
 
-- [your-github-user](https://github.com/your-github-user) Konstantin Makarchev - creator, maintainer
+```crystal
+require "auto_initialize"
+
+# some base class
+class A
+  include AutoInitialize
+  property x : Int32
+end
+
+# some user code extend this class, with another field
+class A
+  property y : String
+end
+
+p A.new(x: 1, y: "bla") # => #<A:0x1032d2f00 @x=1, @y="bla">
+```
