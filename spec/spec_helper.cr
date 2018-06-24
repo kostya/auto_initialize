@@ -44,7 +44,6 @@ class MiddleDefault
   property c : Int32
 end
 
-
 class MiddleDefaultNil
   include AutoInitialize
 

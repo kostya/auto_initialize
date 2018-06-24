@@ -13,4 +13,3 @@ module AutoInitialize
   def after_initialize
   end
 end
-
