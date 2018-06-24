@@ -1,8 +1,7 @@
 module AutoInitialize
   def initialize(**args : **T) forall T
-    {% names = @type.instance_vars.map(&.id) %}
     {% for key in T.keys.map(&.id) %}
-      {% unless names.includes?(key) %}
+      {% unless @type.instance_vars.map(&.id).includes?(key) %}
         {% raise "no argument named '#{key}'" %}
       {% end %}
 

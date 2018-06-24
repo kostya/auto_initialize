@@ -1,4 +1,4 @@
-srequire "spec"
+require "spec"
 require "../src/auto_initialize"
 
 # ============ simple examples =============
